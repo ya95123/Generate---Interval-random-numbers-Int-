@@ -9,6 +9,82 @@
 
 <body>
     <script>
+        // TODO: 作業-威力彩開獎(要避免重複數字)：
+        // 用上面練習完成的 function 製作威力彩號碼產生器
+        // 將隨機出的數字用 document.write() 顯示在網頁上
+        // 威力彩規則
+
+        // TODO: A 區 1~38 取 6 個數字
+        // Tips:會用到陣列，抽到重複的重抽
+
+        // Step1：--共用function 取區間隨機數--
+        function randA(minA, maxA) {
+            let rand = Math.round(Math.random() * (maxA - minA) + minA);
+            return rand;
+        }
+        // 方法一：--先設a1~a6，再用while跑如果有重複值就重取區間亂數(有點暴力解...)--
+        // let a1 = 0, a2 = 0, a3 = 0, a4 = 0, a5 = 0, a6 = 0;
+        let a1 = randA(1, 38), a2 = randA(1, 38), a3 = randA(1, 38), a4 = randA(1, 38), a5 = randA(1, 38), a6 = randA(1, 38);
+        while (a1 == a2 || a1 == a3 || a1 == a4 || a1 == a5 || a1 == a6 || a2 == a3 || a2 == a4 || a2 == a5 || a2 == a6 || a3 == a4 || a3 == a5 || a3 == a6 || a4 == a5 || a4 == a6 || a5 == a6 || a1 == a2 == a3 || a2 == a3 == a4 || a3 == a4 == a5 || a4 == a5 == a6 || a1 == a2 == a3 == a4 || a2 == a3 == a4 == a5 == a6 || a1 == a2 == a3 == a4 == a5 || a2 == a3 == a4 == a5 == a6 || a1 == a2 == a3 == a4 == a5 == a6) {
+            a1 = randA(1, 38);
+            a2 = randA(1, 38);
+            a3 = randA(1, 38);
+            a4 = randA(1, 38);
+            a5 = randA(1, 38);
+            a6 = randA(1, 38);
+        }
+        document.write(`開獎號碼(方法1)：${a1}、${a2}、${a3}、${a4}、${a5}、${a6}<br>`);
+        // 排列順序，將a1~a6放進陣列，利用陣列把數字排序(sort)
+        let catchN = [a1, a2, a3, a4, a5, a6];
+        let ascNum = catchN.sort((a, b) => {
+            return a - b;
+        })
+        document.write(`開獎號碼(方法1，有順序)：${ascNum}<br><br>`);
+
+
+        // 方法二：先設numStr等於空文字串，再用for跑出1~38放在numStr文字串裡，並轉陣列。再設a=空的文字串，用for跑陣列值6次，讓每次迴圈 a = 該圈亂數值，先印出文字後，讓該值成陣列裡消失(filter)，而下一次迴圈亂數區間也跟著-k，才不會出先選取超過陣列key值。
+
+        // 讓numStr文字串變成1~38，並用","分隔文字串，再轉成陣列(if用來區分文字後是否要加","，因為最後一值不需要)
+        let numStr = "";
+        for (let j = 1; j <= 38; j++) {
+            if (j <= 37) {
+                numStr = numStr + j + ",";
+            }
+
+            if (j == 38) {
+                numStr = numStr + j;
+            }
+        };
+        // 轉陣列
+        let arrN = numStr.split(",");
+        // 檢查是否已為陣列
+        console.log(arrN);
+
+        // 設a=空的文字串，讓每次迴圈 a = 該圈亂數值，先印出文字後，讓該值成陣列裡消失，而下一次迴圈亂數區間也跟著 -k，才不會出先選取超過陣列key值。(if用來區分文字後是否要加"、"，因為最後一值不需要)
+        document.write(`開獎號碼(方法2)：`);
+        let a = "";
+        for (let k = 0; k < 6; k++) {
+            a = arrN[randA(0, 37 - k)];
+
+            if (k <= 4) {
+                document.write(`${a}、`);
+            }
+            if (k == 5) {
+                document.write(`${a}`);
+            }
+
+            arrN = arrN.filter((number) => {
+                return number != a;
+            })
+        }
+
+        // TODO: B 區 1~8 取 1 個數字
+        // 因為只取一個數字，就不需要避免重複抽到同數值問題
+        let b = randA(1, 8);
+        while (b == a1 || b == a2 || b == a3 || b == a4 || b == a5 || b == a6) {
+            b = randA(1, 8);
+        }
+        document.write(`<br>特別號碼：${b}`);
 
     </script>
 </body>
