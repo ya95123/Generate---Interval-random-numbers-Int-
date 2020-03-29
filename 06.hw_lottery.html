@@ -106,7 +106,7 @@
 
         // TODO:  3== == == == == 練習 == == == == == 其他 == == == == == 方法
         // 方法三(改善方法二無法排序問題)：先讓1-38的數字放到陣列裡，並用迴圈跑6圈，從陣列隨機取其中一值，並讓該值從陣列中消失，至此取不重複號碼
-        document.write(`<strong>方法三(改善方法二無法排序問題)：把 1-38 放陣列裡，隨機取值後新增該值到新陣列，並讓該值從原陣列裡消失，最後利用新陣列排出由小到大的抽出號碼。</strong><br><br>`);
+        document.write(`<strong>方法三(概念同方法二，改善方便排序的寫法)：把 1-38 放陣列裡，隨機取值後新增該值到新陣列，並讓該值從原陣列裡消失，最後利用新陣列排出由小到大的抽出號碼。</strong><br><br>`);
         let arrN2 = [];
         for (let m = 0; m < 38; m++) {
             arrN2.push(m + 1);
@@ -146,8 +146,36 @@
             return num2 != cs
         })
         // 檢查剩餘號碼
-        console.log(arrN);
+        console.log(arrN2);
         document.write(`特別號碼：${cs}<br><br><br>`);
+
+
+        // TODO:  == == == == == 練習 == == == == == 其他 == == == == == 方法
+        // 方法四：用 includes 判斷抓取的區間隨機數是否在陣列裡有重複，為 true 的話則重新抓取新的區間隨機數，直到不重複(while)後，把值push到陣列裡，陣列裡即為不重複區間隨機數
+        document.write(`<strong>方法四：用 includes 判斷抓取的區間隨機數是否在陣列裡有重複，為 true 的話則重新抓取新的區間隨機數，直到不重複(while)後，把值push到陣列裡，陣列裡即為不重複區間隨機數，並把號碼由小到大排列。</strong><br><br>`);
+        // A 區
+        let arrN3 = [];
+        // d 為了要讓 while 判斷式好判斷而設的變數
+        let d = 0;
+        for (n = 0; n < 6; n++) {
+            d = rand(1, 38);
+            while (arrN3.includes(d)) {
+                d = rand(1, 38);
+            }
+            arrN3.push(d);
+        }
+        let ascN3 = arrN3.sort((a, b) => {
+            return a - b
+        });
+        document.write(`開獎號碼(方法3):${ascN3}<br>`);
+
+        // B 區
+        let d2 = rand(1, 8)
+        while (arrN3.includes(d2)) {
+            d2 = rand(1, 8)
+        }
+        document.write(`特別號碼：${d2}<br><br><br>`);
+
     </script>
 </body>
 
